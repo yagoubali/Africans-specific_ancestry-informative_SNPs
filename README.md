@@ -1,0 +1,1 @@
+# Africans-specific_ancestry-informative_SNPs
