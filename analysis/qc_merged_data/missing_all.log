@@ -1,0 +1,16 @@
+PLINK v1.90p 64-bit (16 Jun 2020)
+Options in effect:
+  --allow-no-sex
+  --bfile merged_data/merged_final
+  --missing
+  --out analysis/qc_merged_data/missing_all
+
+Hostname: Nitro-AN515-51
+Working directory: /media/yagoubali/bioinfo3/Bioinformatics-Protocol/repo/Afrcians_ancestry-informative_SNPs
+Start time: Thu Aug 24 12:47:03 2023
+
+Random number seed: 1692892023
+31972 MB RAM detected; reserving 15986 MB for main workspace.
+Error: Failed to open merged_data/merged_final.bed.
+
+End time: Thu Aug 24 12:47:03 2023
