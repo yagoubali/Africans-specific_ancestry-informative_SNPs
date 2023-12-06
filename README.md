@@ -11,7 +11,7 @@ Human genetic diversity is critical in determining various phenotypes and geneti
 3. bgzip (bgzip (htslib) 1.13+ds)
 4. bcftools (version 1.13 Using htslib 1.13+ds)
 5. plink2, plink, i.e, plink 1.9
-6. liftOver
+6. LiftOver
 7. sed
 8. awk
 9. [vcf2maf](https://github.com/mskcc/vcf2maf)
