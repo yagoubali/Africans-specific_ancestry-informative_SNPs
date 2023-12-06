@@ -1,4 +1,4 @@
-### [Download 1000 genomes data]()
+### [Download 1000 genomes data](download_1KG.md)
 
 ### [Download Simons Genome Diversity Project (SGDP)]()
 

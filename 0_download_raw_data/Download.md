@@ -21,7 +21,7 @@ wget -c https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_c
 wget -c https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20200731.ALL.ped
 ```
 
-# Check any downlaod error in gz files
+# Check any downloading error in gz files
 
 ```bash
 for chrom in {1..22}; do
