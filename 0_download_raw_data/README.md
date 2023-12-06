@@ -1,5 +1,5 @@
-### [Download 1000 genomes data](download_1KG.md)
+#### [Download 1000 genomes data](download_1KG.md)
 
-### [Download Simons Genome Diversity Project (SGDP)]()
+#### [Download Simons Genome Diversity Project (SGDP)]()
 
-### [Download International HapMap Project (HapMap3)]()
+#### [Download International HapMap Project (HapMap3)]()
