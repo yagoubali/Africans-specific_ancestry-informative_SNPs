@@ -6,7 +6,7 @@
                ├── SGDP
                ├── miscellaneous
                ├── annovar
-               ├── preprocess_raw_data      ├── qc_merged_data # Here
+               ├── preprocess_raw_data      ├── qc_merged_data 
                ├── merged_data              ├── Fst
                ├── analysis ────────────────├── AFR
                                             ├── snpEff
@@ -14,9 +14,10 @@
                                             ├── qc_ancestry_snps
                                             ├── structure
 
-##### Quality control assessments on merged data set
-1. [Check individuals' missingness](check_individuals_missingness.md)
-2. [Remove genotype missingness](remove_missingness.md)
-3. [MAF distribution](MAF_distribution.md)
-4. [HWE distribution](HWE_distribution.md)
-5. [LD distribution](LD_distribution.md)
+##### Analyses
+1. [Fst test](Fst.md)
+2. Extract Ancestry informative SNPs
+3. Characterizing ancestry informative SNPs
+4. Functional annotation using snpEff
+5. Functional annotation using Annovar
+6. Population structure analysis

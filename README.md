@@ -37,4 +37,13 @@ Human genetic diversity is critical in determining various phenotypes and geneti
 4. [Quality control check of merged data set.](3_quality_control/qc.md)
    1. Check individuals' missingness and Check SNPs' missingness
    2. Filter out data by removing missingness.
-5. [Analysis](4_analysis/analysis.md)
+   3. MAF distribution
+   4. HWE distribution
+   5. LD distribution
+5. [Analysis](4_analysis/README.md)
+   1. Fst test
+   2. Extract Ancestry informative SNPs
+   3. Characterizing ancestry informative SNPs
+   4. Functional annotation using snpEff
+   5. Functional annotation using Annovar
+   6. Population structure analysis
