@@ -1,15 +1,17 @@
 > Directory layout
+
     projectDir .
                ├── 1KG
                ├── HapMap3
                ├── SGDP
                ├── miscellaneous
-               ├── annovar               ├ 1KG     # Preprocess 1KG data
-               ├── preprocess_raw_data ──├ SGDP    # Preprocess SGDP data
-               ├── merged_data           └ HapMap3 # Preprocess HapMap3 data
+               ├── annovar
+               ├── preprocess_raw_data
+               ├── merged_data   ## Merge data sets here
                ├── analysis
 
 #### Merging cleaned data sets:
+
 1. [Merge 1KG updated FID with SGDP cleaned data set.](Merge_1KG_with_SGDP.md)
 2. [Merge cleaned HapMap3 with 1KG and SGDP.](Merge_1KG-SGDP_with_HapMap.md)
 3. [Prepare samples panels.](samples_panels.md)
