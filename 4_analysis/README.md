@@ -20,4 +20,4 @@
 3. [Characterizing ancestry informative SNPs](Characterizing_ancestry_informative_SNPs.md)
 4. [Functional annotation using snpEff](snpEff.md)
 5. [Functional annotation using Annovar](annovar.md)
-6. Population structure analysis
+6. [Population structure analysis](structure_analysis.md)
