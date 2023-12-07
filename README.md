@@ -23,9 +23,9 @@ Human genetic diversity is critical in determining various phenotypes and geneti
 
 1. [Download data sets](0_download_raw_data/README.md)
 2. [Preprocessing and data cleaning](1_raw_data_preprocessing/README.md)
-   1. [1000 genomes](1_raw_data_preprocessing/1KG.md)
-   2. [Simon Genome Diversity Project (SGDP)](1_raw_data_preprocessing/SGDP.md)
-   3. [HapMap3](1_raw_data_preprocessing/HapMap3.md)
+   1. 1000 genomes (1KG)
+   2. Simon Genome Diversity Project (SGDP)
+   3. HapMap3
 3. [Data sets merging](2_merge_data_sets/README.md)
    1. Merge 1KG updated FID with SGDP cleaned data sets
    2. Merge cleaned HapMap3 with 1KG and SGDP.
