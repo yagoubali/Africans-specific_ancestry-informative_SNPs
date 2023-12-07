@@ -27,7 +27,7 @@ plink --bfile ${plink_file_overlapped}  --hardy \
       --out ${outdir}/HWE_check_overlapped --allow-no-sex --make-founders
 ```
 
-####### 3. LD distribution
+###### 3. LD distribution
 
 ```bash
 outdir="analysis/qc_ancestry_snps"
