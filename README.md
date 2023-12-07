@@ -22,7 +22,7 @@ Human genetic diversity is critical in determining various phenotypes and geneti
 #### Analysis steps
 
 1. [Download data sets](0_download_raw_data/README.md)
-2. [Preprocessing and data cleaning](1_raw_data_Preprocessing/README.md)
+2. [Preprocessing and data cleaning](1_raw_data_preprocessing/README.md)
    1. [1000 genomes](1_raw_data_preprocessing/1KG.md)
    2. [Simon Genome Diversity Project (SGDP)](1_raw_data_preprocessing/SGDP.md)
    3. [HapMap3](1_raw_data_preprocessing/HapMap3.md)

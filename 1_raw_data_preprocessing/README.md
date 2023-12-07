@@ -15,4 +15,3 @@
 #### [Preprocessing Simons Genome Diversity Project (SGDP)](Preprocessing_SGDP.md)
 
 #### [Preprocessing International HapMap Project (HapMap3)](Preprocessing_HapMap3.md)
-
