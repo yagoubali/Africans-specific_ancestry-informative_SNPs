@@ -1,4 +1,4 @@
-The preprocessing steps for 1KGP data include:
+#### The preprocessing steps for 1KGP data include:
 
 1. Normalize SNPs by splitting multiallelic sites into biallelic records
 2. Extract SNPs from the raw VCF files.
@@ -8,7 +8,7 @@ The preprocessing steps for 1KGP data include:
 6. Remove ambiguous SNPs.
 7. Remove duplicate SNPs
 
-## 1. Normalize SNPs
+##### 1. Normalize SNPs
 
 ```bash
 mkdir -p preprocess_raw_data/1KG
@@ -31,7 +31,7 @@ done
 
 ```
 
-## 2. Extract SNPs from VCF files
+##### 2. Extract SNPs from VCF files
 
 ```bash
 #cd project_dir ### the main project folder
@@ -51,7 +51,7 @@ for chrom in {1..22}; do
 done
 ```
 
-## 3. Annotate SNPs: Assign and update input VCF files with the correct SNPs rsIDs
+##### 3. Annotate SNPs: Assign and update input VCF files with the correct SNPs rsIDs
 
 ```bash
 #cd project_dir ### the main project folder
@@ -83,7 +83,7 @@ for chrom in {1..22}; do
 done
 ```
 
-## 4. Convert VCF files to PLINK format
+#### 4. Convert VCF files to PLINK format
 
 ```bash
 #cd project_dir ### the main project folder
@@ -106,7 +106,7 @@ rm  ${outdir}/*log
 rm  ${outdir}/*vcf
 ```
 
-## 5. Merge per chromosome PLINK files
+##### 5. Merge per chromosome PLINK files
 
 ```bash
 outdir="preprocess_raw_data/1KG";
@@ -135,7 +135,7 @@ plink   --bfile ${outdir}/ALL.chr10_cleaned \
 
 ```
 
-## 6. Remove ambiguous SNPs
+##### 6. Remove ambiguous SNPs
 
 ```bash
 bash
@@ -154,7 +154,7 @@ awk 'BEGIN {OFS="\t"} ($5$6 == "GC" || $5$6 == "CG" \
   --out ${outdir}/${prefix_plink}_no_ambiguous_snps
 ```
 
-## 6. Remove duplicate SNPs
+##### 6. Remove duplicate SNPs
 
 ```bash
 outdir="preprocess_raw_data/1KG";
@@ -168,7 +168,7 @@ plink2 --bfile ${outdir}/${prefix_plink} \
 --out ${outdir}/${prefix_plink}_noDup
 ```
 
-## 7. Update FID in fam file
+##### 7. Update FID in fam file
 
 ```bash
 outdir="preprocess_raw_data/1KG";

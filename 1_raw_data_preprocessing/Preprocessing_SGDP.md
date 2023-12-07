@@ -1,4 +1,4 @@
-SGDP data is preprocessed by performing the following steps:
+#### SGDP data is preprocessed by performing the following steps:
 
 1. Updating IDs
 2. Removing individuals that are existed in 1KGP
@@ -9,7 +9,7 @@ SGDP data is preprocessed by performing the following steps:
 7. Filipping alleles based on 1KGP
 8. Remove SNPs that are inconsistent with 1KGP after performing the steps (2-7).
 
-## 1. Update samples ID in PLINK fam file
+##### 1. Update samples ID in PLINK fam file
 
 ```bash
 mkdir -p preprocess_raw_data/SGDP
@@ -22,9 +22,9 @@ awk -F"\t" 'BEGIN{OFS="\t"} {print $1,$2,$2,$2}' SGDP/${SGDP}.fam > ${outdir}/up
 plink2  --bfile SGDP/${SGDP}  --make-bed --out ${outdir}/SGDP_updated_ids  --update-ids ${outdir}/update.ids
 ```
 
-## 2. Removing SGDP samples that are overlapped with 1KG samples
+###### 2. Removing SGDP samples that are overlapped with 1KG samples
 
-# ---> 23 individuals have been removed, remaining 322 samples
+###### ---> 23 individuals have been removed, remaining 322 samples
 
 ```bash
 #extract 1KG samples ids
@@ -38,7 +38,7 @@ plink2 --bfile ${outdir}/SGDP_updated_ids --remove-fam ${ids_1kg} --make-bed --o
 rm ${outdir}/SGDP_updated_ids*
 ```
 
-## 3. checking duplicate variants
+##### 3. checking duplicate variants
 
 ```bash
 outdir="preprocess_raw_data/SGDP";
@@ -53,7 +53,7 @@ plink2 --bfile ${plink} \
 --out ${outdir}/SGDP_noDup
 ```
 
-## 4. Remove ambiguous variants
+##### 4. Remove ambiguous variants
 
 ```bash
 outdir="preprocess_raw_data/SGDP";
@@ -71,7 +71,7 @@ awk 'BEGIN {OFS="\t"} ($5$6 == "GC" || $5$6 == "CG" \
   --out ${outdir}/SGDP_wo_ambiguous_snp
 ```
 
-## 5. Update RsIds to match with 1KG
+##### 5. Update RsIds to match with 1KG
 
 ```bash
 outdir="preprocess_raw_data/SGDP";
@@ -86,7 +86,7 @@ plink2  --bfile ${plink} \
 --out ${outdir}/SGDP_rsids_updated
 ```
 
-## 6. SNPs filliping and error corrections, i.e, correction of SNPs position and chromosome errors
+##### 6. SNPs filliping and error corrections, i.e, correction of SNPs position and chromosome errors
 
 ```bash
 outdir="preprocess_raw_data/SGDP";
@@ -130,7 +130,7 @@ plink --bfile ${plink_SGDP} \
 rm ${plink_SGDP}*
 ```
 
-## 7. Check for SNPs errors after corrections
+##### 7. Check for SNPs errors after corrections
 
 ```bash
 outdir="preprocess_raw_data/SGDP";
@@ -165,5 +165,4 @@ plink2 --bfile ${plink_SGDP} \
 --out ${outdir}/SGDP_final
 
 rm  ${plink_SGDP}*
-
 ```

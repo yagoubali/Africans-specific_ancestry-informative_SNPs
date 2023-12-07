@@ -1,4 +1,4 @@
-HapMap3 is preprocessed by performing the following steps:
+#### HapMap3 is preprocessed by performing the following steps:
 
 1. Convert map and ped files into PLINK binary filesets
 2. Merge HapMap files.
@@ -11,7 +11,7 @@ HapMap3 is preprocessed by performing the following steps:
 9. Flipping alleles based on 1KGP and SGDP.
 10. Remove SNPs that are inconsistent with 1KGP and SGDP after performing the steps (2-9).
 
-## 1. HapMap3 map & ped files into PLINK binary files: fam, bed, and bim
+##### 1. HapMap3 map & ped files into PLINK binary files: fam, bed, and bim
 
 ```bash
 #cd PathTO_hapmap3_directory
@@ -29,7 +29,7 @@ plink --file ${hapmap_dir}/${ped2} --make-bed --chr 1-22 --out ${outdir}/${ped2}
 done
 ```
 
-### 2. HapMap3 merge PLINK binary files
+##### 2. HapMap3 merge PLINK binary files
 
 ```bash
 outdir="preprocess_raw_data/HapMap3";
@@ -40,7 +40,7 @@ plink --bfile ${outdir}/hapmap3_r1_b36_fwd.ASW.qc.poly.recode \
   --out ${outdir}/hapmap3  --make-bed --allow-no-sex
 ```
 
-### 3. HapMap3 Remove duplicate SNPs and Ambiguous SNPs
+##### 3. HapMap3 Remove duplicate SNPs and Ambiguous SNPs
 
 ```bash
 outdir="preprocess_raw_data/HapMap3";
@@ -71,7 +71,7 @@ awk 'BEGIN {OFS="\t"} ($5$6 == "GC" || $5$6 == "CG" \
   rm ${outdir}/hapmap3_noDup*
 ```
 
-## 4. HapMap3 LiftOver
+##### 4. HapMap3 LiftOver
 
 ```bash
 outdir="preprocess_raw_data/HapMap3";
@@ -99,7 +99,7 @@ plink2 --bfile ${plink_hapmap3}  \
 rm ${plink_hapmap3}*
 ```
 
-### 5. Update HapMap3 IDs and remove overlapped samples with samples from merged 1KG and SGDP
+##### 5. Update HapMap3 IDs and remove overlapped samples with samples from merged 1KG and SGDP
 
 ```bash
 ###Update FID in hapmap
@@ -135,7 +135,7 @@ plink2 --bfile ${outdir}/hapmap3_hg19_updatedFID \
 
 ```
 
-## 6. Removing SNPs that are not existed in both 1KGP and SGDP,
+##### 6. Removing SNPs that are not existed in both 1KGP and SGDP,
 
 ```bash
 outdir="preprocess_raw_data/HapMap3";
@@ -151,7 +151,7 @@ plink2 --bfile ${plink_hapmap3} \
 rm ${plink_hapmap3}*{bim,bed,fam,log}
 ```
 
-## 7. Removing SNPs that their chromosome doses do not match both 1KGP and SGDP.
+##### 7. Removing SNPs that their chromosome doses do not match both 1KGP and SGDP.
 
 ```bash
 outdir="preprocess_raw_data/HapMap3";
@@ -174,7 +174,7 @@ plink2 --bfile ${plink_hapmap3} \
 rm ${plink_hapmap3}*{bim,bed,fam,log}
 ```
 
-## 8. Correcting SNPs genomic positions based on 1KGP and SGDP.
+##### 8. Correcting SNPs genomic positions based on 1KGP and SGDP.
 
 ```bash
 outdir="preprocess_raw_data/HapMap3";
@@ -196,7 +196,7 @@ plink --bfile ${plink_hapmap3} \
 rm ${plink_hapmap3}*{bim,bed,fam,log}
 ```
 
-## 9. Flipping alleles based on 1KGP and SGDP.
+##### 9. Flipping alleles based on 1KGP and SGDP.
 
 ```bash
 outdir="preprocess_raw_data/HapMap3";
@@ -218,7 +218,7 @@ plink --bfile ${plink_hapmap3} \
 rm ${plink_hapmap3}*{bim,bed,fam,log}
 ```
 
-## 10. Remove SNPs that are inconsistent with 1KGP and SGDP after performing the steps (2-9).
+##### 10. Remove SNPs that are inconsistent with 1KGP and SGDP after performing the steps (2-9).
 
 ```bash
 outdir="preprocess_raw_data/HapMap3";
