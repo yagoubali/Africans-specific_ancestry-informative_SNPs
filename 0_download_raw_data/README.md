@@ -14,4 +14,4 @@
 
 #### [Download Simons Genome Diversity Project (SGDP)](download_SGDP.md)
 
-#### [Download International HapMap Project (HapMap3)]()
+#### [Download International HapMap Project (HapMap3)](download_HapMap3.md)
