@@ -17,7 +17,7 @@
 ##### Analyses
 1. [Fst test](Fst.md)
 2. [Extract Ancestry informative SNPs](Ancestry_informative_SNPs.md)
-3. Characterizing ancestry informative SNPs
+3. [Characterizing ancestry informative SNPs](Characterizing_ancestry_informative_SNPs.md)
 4. Functional annotation using snpEff
 5. Functional annotation using Annovar
 6. Population structure analysis
