@@ -41,9 +41,9 @@ java -Xmx8g -jar ${snpEff_bin}/snpEff.jar  GRCh37.87 ${vcf_file_africans} > \
  mv GRCh37* ${base_outdir}/Africans_snps/
 ```
 
-###### 2. snpEff annotation based on GRCh37.p13
+###### 3. snpEff annotation based on GRCh37.p13
 
-````bash
+```bash
 snpEff_bin="analysis/snpEff"
 base_outdir="analysis/snpEff"
 mkdir -p  "${base_outdir}/overlapped_snps"
@@ -64,7 +64,7 @@ ${base_outdir}/Africans_snps/snps_GRCh37.p13_ann.vcf
 rename 's/snpEff/GRCh37.p13/g' snpEff*
  mv GRCh37* ${base_outdir}/Africans_snps/
 ```
-######  3. snpEff annotation based on  GWAS catalog
+######  4. snpEff annotation based on  GWAS catalog
 ```bash
 snpEff_bin="analysis/snpEff"
 base_outdir="analysis/snpEff"
