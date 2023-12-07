@@ -19,5 +19,5 @@
 2. [Extract Ancestry informative SNPs](Ancestry_informative_SNPs.md)
 3. [Characterizing ancestry informative SNPs](Characterizing_ancestry_informative_SNPs.md)
 4. [Functional annotation using snpEff](snpEff.md)
-5. Functional annotation using Annovar
+5. [Functional annotation using Annovar](annovar.md)
 6. Population structure analysis
