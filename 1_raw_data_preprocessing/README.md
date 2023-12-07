@@ -11,7 +11,5 @@
                ├── analysis
 
 #### [Preprocessing 1000 genomes data](Preprocessing_1KG.md)
-
 #### [Preprocessing Simons Genome Diversity Project (SGDP)](Preprocessing_SGDP.md)
-
 #### [Preprocessing International HapMap Project (HapMap3)](Preprocessing_HapMap3.md)
