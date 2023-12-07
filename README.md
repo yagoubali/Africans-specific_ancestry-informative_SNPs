@@ -47,3 +47,5 @@ Human genetic diversity is critical in determining various phenotypes and geneti
    4. Functional annotation using snpEff
    5. Functional annotation using Annovar
    6. Population structure analysis
+
+<img src="structure_african.png" alt="Populations stratifications" title="Populations stratifications">
