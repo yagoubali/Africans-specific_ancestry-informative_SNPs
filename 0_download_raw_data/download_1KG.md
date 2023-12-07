@@ -24,10 +24,17 @@ wget -c https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_c
 #### 2. Check any downloading error in gz files
 
 ```bash
-for chrom in {1..22}; do
-  file=${prefix}${chrom}.${suffix};
-  echo " Testing ... $file ...";
+set -x;
+# cd projectDir/
 
+prefix="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr";
+suffix=".phase3_shapeit2_mvncall_integrated_v5b.20130502.genotypes.vcf.gz";
+
+download_dir="1KG"
+
+for chrom in {1..22}; do
+  file="${download_dir}/${prefix}${chrom}.${suffix}";
+  echo "Testing ... $file ...";
   gzip -t  ${file}
 done
 ```
