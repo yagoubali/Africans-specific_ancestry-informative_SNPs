@@ -1,4 +1,4 @@
-## 1. Merge 1KG updated FID with SGDP cleaned data. sets
+## 1. Merge 1KG updated FID with SGDP cleaned data sets
 
 ```bash
 outdir="merged_data"

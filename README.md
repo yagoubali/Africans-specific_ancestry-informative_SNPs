@@ -26,7 +26,14 @@ Human genetic diversity is critical in determining various phenotypes and geneti
    1. [1000 genomes](1_raw_data_preprocessing/1KG.md)
    2. [Simon Genome Diversity Project (SGDP)](1_raw_data_preprocessing/SGDP.md)
    3. [HapMap3](1_raw_data_preprocessing/HapMap3.md)
-3. [Data sets merging](2_merge_data_sets/MERGE.md)
+3. [Data sets merging](2_merge_data_sets/README.md)
+   1. Merge 1KG updated FID with SGDP cleaned data sets
+   2. Merge cleaned HapMap3 with 1KG and SGDP.
+   3. Prepare samples panels
+   4. Update fam file of the merged data set.
+   5. Remove 2 samples of SGDP that are missed in the sample panel file.
+   6. Update FID in the cleaned fam file by using super populations IDs.
+   7. Remove non 1KG super populations
 4. [Quality control check of merged data set.](3_quality_control/qc.md)
    1. Check individuals' missingness and Check SNPs' missingness
    2. Filter out data by removing missingness.
