@@ -63,8 +63,8 @@ ${base_outdir}/Africans_snps/snps_GRCh37.p13_ann.vcf
 
 rename 's/snpEff/GRCh37.p13/g' snpEff*
  mv GRCh37* ${base_outdir}/Africans_snps/
-
-######  2. snpEff annotation based on  GWAS catalog
+```
+######  3. snpEff annotation based on  GWAS catalog
 ```bash
 snpEff_bin="analysis/snpEff"
 base_outdir="analysis/snpEff"
