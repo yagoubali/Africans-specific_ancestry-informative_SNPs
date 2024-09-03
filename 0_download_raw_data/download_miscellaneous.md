@@ -1,7 +1,7 @@
 ##### 1. SNP annotation for hg19 in vcf format
 
 ```bash
-
+mkdir -p miscellaneous
 download_dir="miscellaneous/"  ## a  directory to store Miscellaneous, ie. miscellaneous folder
 #wget ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh37p13/VCF/common_all_20180423.vcf.gz -P ${download_dir}
 wget -O - "ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh37p13/VCF/common_all_20180423.vcf.gz" | gunzip -t && echo SUCCESS
