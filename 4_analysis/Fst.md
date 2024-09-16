@@ -2,6 +2,7 @@
 
 ```bash
 mkdir -p analysis/Fst
+mkdir -p analysis/Fst_0.6
 outdir="analysis/Fst"
 plink_file="analysis/qc_merged_data/merged_final_5FID_Fst"
 
@@ -17,6 +18,7 @@ plink2 --bfile ${plink_file} \
   --pheno ${outdir}/pheno.all
 ```
 
+cp analysis/Fst/*var analysis/Fst_0.6/
 ##### 2. Filter Fst results
 
 ```R
@@ -58,6 +60,7 @@ EAS.EUR="Fst_wc.EAS.EUR.fst.var"
 EAS.SAS="Fst_wc.EAS.SAS.fst.var"
 EUR.SAS="Fst_wc.EUR.SAS.fst.var"
 
+## Fst 0.4
 fitter("Fst_wc.AFR.AMR.fst.var",0.4)
 fitter("Fst_wc.AFR.EAS.fst.var",0.4)
 fitter("Fst_wc.AFR.EUR.fst.var",0.4)
@@ -153,7 +156,7 @@ dev.off()
 
 #AFR, AMR, EAS, EUR, OCE, SAS, WAS
 AFR_set<-Reduce(intersect,AFR)
-AFR_specific=Reduce(setdiff, AFR)
+#AFR_specific=Reduce(setdiff, AFR)
 AMR_set<-Reduce(intersect,AMR)
 EAS_set<-Reduce(intersect,EAS)
 EUR_set<-Reduce(intersect,EUR)
@@ -168,13 +171,14 @@ SAS_df=as.data.frame(SAS_set)
 
 system("mkdir SNPs_list")
 write.table(AFR_df, file="SNPs_list/AFR_0.4.txt",row.names=F, col.names=F,quote = FALSE)
+write.table(AFR_df, file="SNPs_list/global_AFR_0.4.txt",row.names=F, col.names=F,quote = FALSE)
 write.table(AFR_specific_df, file="SNPs_list/AFR_specific_0.4.txt",row.names=F, col.names=F,quote = FALSE)
 write.table(AMR_df, file="SNPs_list/AMR_0.4.txt",row.names=F, col.names=F,quote = FALSE)
 write.table(EAS_df, file="SNPs_list/EAS_0.4.txt",row.names=F, col.names=F,quote = FALSE)
 write.table(EUR_df, file="SNPs_list/EUR_0.4.txt",row.names=F, col.names=F,quote = FALSE)
 write.table(SAS_df, file="SNPs_list/SAS_0.4.txt",row.names=F, col.names=F,quote = FALSE)
 
- install.packages("venn")
+install.packages("venn")
 library("venn")
 png("AFR_venn.png",width=8, height=8, units="in", res=500)
 venn(AFR,zcolor="style",box=F, ilcs = 0.8)
@@ -195,4 +199,262 @@ dev.off()
 png("SAS_venn.png",width=8, height=8, units="in", res=500)
 venn(SAS,zcolor="style",box=F, ilcs = 0.8)
 dev.off()
+
+install.packages('VennDiagram')
+library(VennDiagram)
+
+v1 <- venn.diagram(AFR,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="AFR_venn1.png")
+
+v2 <- venn.diagram(AMR,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="AMR_venn1.png")
+
+v3 <- venn.diagram(EAS,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="EAS_venn1.png")
+
+v4 <- venn.diagram(EUR,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="EUR_venn1.png")
+
+v5 <- venn.diagram(SAS,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="SAS_venn1.png")
+
+
+
+pairwise_AFR_SNPs= c( c(setdiff(setdiff(
+ setdiff(AFR.AMR_RsId , AFR.EAS_RsId), 
+         AFR.EUR_RsId),
+           AFR.SAS_RsId)),       
+ c(setdiff(setdiff(
+ setdiff(AFR.EAS_RsId, AFR.EUR_RsId ), 
+         AFR.SAS_RsId ),
+           AFR.AMR_RsId)),       
+ c(setdiff(setdiff(
+ setdiff(AFR.EUR_RsId, AFR.EAS_RsId), 
+         AFR.SAS_RsId),
+           AFR.AMR_RsId)),       
+ c(setdiff(setdiff(
+ setdiff(AFR.SAS_RsId, AFR.EAS_RsId), 
+         AFR.EUR_RsId),
+           AFR.AMR_RsId)))
+
+pairwise_AFR_SNPs_df=as.data.frame(pairwise_AFR_SNPs)
+write.table(pairwise_AFR_SNPs_df, file="SNPs_list/pairwise_AFR_SNPs_0.4.txt",row.names=F, col.names=F,quote = FALSE)
+
+
+#### Fst=0.6
+setwd("../analysis/Fst_0.6")
+ggbg2 <- function() {
+  points(0,0,pch=16, cex=1e6, col="lightgray")
+  grid(col="white", lty=1)
+}
+
+fitter("Fst_wc.AFR.AMR.fst.var",0.6)
+fitter("Fst_wc.AFR.EAS.fst.var",0.6)
+fitter("Fst_wc.AFR.EUR.fst.var",0.6)
+fitter("Fst_wc.AFR.SAS.fst.var",0.6)
+fitter("Fst_wc.AMR.EAS.fst.var",0.6)
+fitter("Fst_wc.AMR.EUR.fst.var",0.6)
+fitter("Fst_wc.AMR.SAS.fst.var",0.6)
+fitter("Fst_wc.EAS.EUR.fst.var",0.6)
+fitter("Fst_wc.EAS.SAS.fst.var",0.6)
+fitter("Fst_wc.EUR.SAS.fst.var",0.6)
+
+
+
+AFR.AMR_t=read.table("Fst_wc.AFR.AMR.fst.txt", header=T)
+AFR.EAS_t=read.table("Fst_wc.AFR.EAS.fst.txt", header=T)
+AFR.EUR_t=read.table("Fst_wc.AFR.EUR.fst.txt", header=T)
+AFR.SAS_t=read.table("Fst_wc.AFR.SAS.fst.txt", header=T)
+
+AMR.EAS_t=read.table("Fst_wc.AMR.EAS.fst.txt", header=T)
+AMR.EUR_t=read.table("Fst_wc.AMR.EUR.fst.txt", header=T)
+AMR.SAS_t=read.table("Fst_wc.AMR.SAS.fst.txt", header=T)
+
+EAS.EUR_t=read.table("Fst_wc.EAS.EUR.fst.txt", header=T)
+EAS.SAS_t=read.table("Fst_wc.EAS.SAS.fst.txt", header=T)
+
+EUR.SAS_t=read.table("Fst_wc.EUR.SAS.fst.txt", header=T)
+
+###
+AFR.AMR_RsId=as.character(AFR.AMR_t$ID)
+AFR.EAS_RsId=as.character(AFR.EAS_t$ID)
+AFR.EUR_RsId=as.character(AFR.EUR_t$ID)
+AFR.SAS_RsId=as.character(AFR.SAS_t$ID)
+
+AMR.EAS_RsId=as.character(AMR.EAS_t$ID)
+AMR.EUR_RsId=as.character(AMR.EUR_t$ID)
+AMR.SAS_RsId=as.character(AMR.SAS_t$ID)
+
+EAS.SAS_RsId=as.character(EAS.SAS_t$ID)
+EAS.EUR_RsId=as.character(EAS.EUR_t$ID)
+
+EUR.SAS_RsId=as.character(EUR.SAS_t$ID)
+
+#AFR, AMR, EAS, EUR, SAS
+#### AFR
+AFR <-list(AFR.AMR=AFR.AMR_RsId,
+           AFR.EAS= AFR.EAS_RsId,
+           AFR.EUR= AFR.EUR_RsId,
+           AFR.SAS=AFR.SAS_RsId)
+
+#AFR, AMR, EAS, EUR, SAS
+#AMR
+AMR <-list(AMR.AFR=AFR.AMR_RsId,
+           AMR.EAS=AMR.EAS_RsId,
+           AMR.EUR=AMR.EUR_RsId,
+           AMR.SAS=AMR.SAS_RsId)
+#AFR, AMR, EAS, EUR, SAS
+# EAS
+EAS <- list(EAS.AFR= AFR.EAS_RsId,
+           EAS.AMR=AMR.EAS_RsId,
+           EAS.EUR=EAS.EUR_RsId,
+           EAS.SAS=EAS.SAS_RsId)
+
+#AFR, AMR, EAS, EUR, SAS
+# EUR
+EUR <- list(EUR.AFR= AFR.EUR_RsId,
+           EUR.AMR=AMR.EUR_RsId,
+           EUR.EAS=EAS.EUR_RsId,
+           EUR.SAS=EUR.SAS_RsId)
+
+##AFR, AMR, EAS, EUR, SAS
+# SAS
+SAS <-list(SAS.AFR= AFR.SAS_RsId,
+           SAS.AMR=AMR.SAS_RsId,
+           SAS.EAS=EAS.SAS_RsId,
+           SAS.EUR=EUR.SAS_RsId)
+
+install.packages("UpSetR")
+library(UpSetR)  ##---->
+system("mkdir UpSetR")
+png("UpSetR/AFR.png",width=8, height=8, units="in", res=500)
+upset(fromList(AFR),point.size=5,shade.color="darkblue", show.numbers=FALSE)
+dev.off()
+png("UpSetR/AMR.png",width=8, height=8, units="in", res=500)
+upset(fromList(AMR),point.size=5,shade.color="darkblue", show.numbers=FALSE)
+dev.off()
+png("UpSetR/EAS.png",width=8, height=8, units="in", res=500)
+upset(fromList(EAS),point.size=5,shade.color="darkblue", show.numbers=FALSE)
+dev.off()
+png("UpSetR/EUR.png",width=8, height=8, units="in", res=500)
+upset(fromList(EUR),point.size=5,shade.color="darkblue", show.numbers=FALSE)
+dev.off()
+png("UpSetR/SAS.png",width=8, height=8, units="in", res=500)
+upset(fromList(SAS),point.size=5, shade.color="darkblue", show.numbers=FALSE)
+dev.off()
+
+#AFR, AMR, EAS, EUR, OCE, SAS, WAS
+AFR_set<-Reduce(intersect,AFR)
+AMR_set<-Reduce(intersect,AMR)
+EAS_set<-Reduce(intersect,EAS)
+EUR_set<-Reduce(intersect,EUR)
+SAS_set<-Reduce(intersect,SAS)
+
+AFR_df=as.data.frame(AFR_set)
+AMR_df=as.data.frame(AMR_set)
+EAS_df=as.data.frame(EAS_set)
+EUR_df=as.data.frame(EUR_set)
+SAS_df=as.data.frame(SAS_set)
+
+system("mkdir SNPs_list")
+write.table(AFR_df, file="SNPs_list/AFR_0.6.txt",row.names=F, col.names=F,quote = FALSE)
+write.table(AFR_df, file="SNPs_list/global_AFR_0.6.txt",row.names=F, col.names=F,quote = FALSE)
+write.table(AMR_df, file="SNPs_list/AMR_0.6.txt",row.names=F, col.names=F,quote = FALSE)
+write.table(EAS_df, file="SNPs_list/EAS_0.6.txt",row.names=F, col.names=F,quote = FALSE)
+write.table(EUR_df, file="SNPs_list/EUR_0.6.txt",row.names=F, col.names=F,quote = FALSE)
+write.table(SAS_df, file="SNPs_list/SAS_0.6.txt",row.names=F, col.names=F,quote = FALSE)
+
+install.packages("venn")
+library("venn")
+png("AFR_venn_0.6.png",width=8, height=8, units="in", res=500)
+venn(AFR,zcolor="style",box=F, ilcs = 0.8)
+dev.off()
+
+png("AMR_venn_0.6.png",width=8, height=8, units="in", res=500)
+ venn(AMR,zcolor="style",box=F, ilcs = 0.8)
+dev.off()
+
+png("EAS_venn_0.6.png",width=8, height=8, units="in", res=500)
+ venn(EAS,zcolor="style",box=F, ilcs = 0.8)
+dev.off()
+
+png("EUR_venn_0.6.png",width=8, height=8, units="in", res=500)
+ venn(EUR,zcolor="style",box=F, ilcs = 0.8)
+dev.off()
+
+png("SAS_venn_0.6.png",width=8, height=8, units="in", res=500)
+venn(SAS,zcolor="style",box=F, ilcs = 0.8)
+dev.off()
+
+install.packages('VennDiagram')
+library(VennDiagram)
+
+v1 <- venn.diagram(AFR,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="AFR_venn_0.6.png")
+
+v2 <- venn.diagram(AMR,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="AMR_venn_0.6.png")
+
+v3 <- venn.diagram(EAS,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="EAS_venn_0.6.png")
+
+v4 <- venn.diagram(EUR,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="EUR_venn_0.6.png")
+
+v5 <- venn.diagram(SAS,
+fill =c("darkblue", "darkgreen", "orange", "darkorchid4"),
+cat.cex = 1.5, cex=1.5,
+width=8, height=8, units="in",
+                  filename="SAS_venn_0.6.png")
+
+
+
+pairwise_AFR_SNPs= c( c(setdiff(setdiff(
+ setdiff(AFR.AMR_RsId , AFR.EAS_RsId), 
+         AFR.EUR_RsId),
+           AFR.SAS_RsId)),       
+ c(setdiff(setdiff(
+ setdiff(AFR.EAS_RsId, AFR.EUR_RsId ), 
+         AFR.SAS_RsId ),
+           AFR.AMR_RsId)),       
+ c(setdiff(setdiff(
+ setdiff(AFR.EUR_RsId, AFR.EAS_RsId), 
+         AFR.SAS_RsId),
+           AFR.AMR_RsId)),       
+ c(setdiff(setdiff(
+ setdiff(AFR.SAS_RsId, AFR.EAS_RsId), 
+         AFR.EUR_RsId),
+           AFR.AMR_RsId)))
+
+pairwise_AFR_SNPs_df=as.data.frame(pairwise_AFR_SNPs)
+write.table(pairwise_AFR_SNPs_df, file="SNPs_list/pairwise_AFR_SNPs_0.6.txt",row.names=F, col.names=F,quote = FALSE)
+
+
 ```

@@ -63,6 +63,7 @@ awk 'BEGIN {OFS="\t"} ($5$6 == "GC" || $5$6 == "CG" \
   ${outdir}/hapmap3.ac_gt_snps
 
 # 2. Exclude ambiguous SNPs  plink files, 126385 snps
+# Sep 5, 24, 126385 preprocess_raw_data/HapMap3/hapmap3.ac_gt_snps
   plink2 --bfile ${outdir}/hapmap3_noDup \
   --exclude ${outdir}/hapmap3.ac_gt_snps \
   --make-bed \
@@ -89,6 +90,8 @@ awk '{print $4, $3}'  ${outdir}/hapmap.hg19 \
  > ${outdir}/hapmap.hg19_pos
 
 #﻿Update the reference data
+# Sep 5, 24, 1430114 variants remaining after main filters.
+
 
 plink2 --bfile ${plink_hapmap3}  \
 --extract ${outdir}/hapmap.hg19_snps \
@@ -130,8 +133,8 @@ plink2 --bfile ${outdir}/hapmap3_hg19_updatedFID \
   --make-bed \
   --out ${outdir}/hapmap3_cleanIds
 
-  rm ${outdir}/hapmap3_hg19_updatedFID*
-  rm ${plink_hapmap3}*{bim,bed,fam,log}
+rm ${outdir}/hapmap3_hg19_updatedFID*
+rm ${plink_hapmap3}*{bim,bed,fam,log}
 
 ```
 
@@ -162,6 +165,7 @@ awk 'BEGIN {OFS="\t"; print "rsid","chr_1KG","chr_hapmap"} FNR==NR {a[$2]=$1; ne
  ${SGDP_1KG}.bim ${plink_hapmap3}.bim \
 > \
 ${outdir}/hapmap3_chr.errors ## 1 error
+## Sep 5, 24, 
 #rsid	chr_1KG	chr_hapmap
 #rs1640558	7	10
 cut -f1 ${outdir}/hapmap3_chr.errors | sed -e '1d' > ${outdir}/chr.mismatch
@@ -188,6 +192,7 @@ awk 'BEGIN {OFS="\t"} FNR==NR {a[$2]=$4; next} \
 ${outdir}/hapmap3_pos.update
 
 ## 15 SNPs
+## Sep 5, 24 ---> 18 SNPs
 plink --bfile ${plink_hapmap3} \
 --update-map ${outdir}/hapmap3_pos.update 1 2 \
 --make-bed \
@@ -210,6 +215,9 @@ awk 'BEGIN {OFS="\t"} FNR==NR {a[$1$2$4]=$5$6; next} \
 
 ## 668 SNPs
 
+## sep 5, 24 -->  769 preprocess_raw_data/HapMap3/hapmap3_flip.rsids
+
+
 plink --bfile ${plink_hapmap3} \
 --flip ${outdir}/hapmap3_flip.rsids \
 --make-bed --allow-no-sex \
@@ -231,6 +239,7 @@ awk 'BEGIN {OFS="\t"} FNR==NR {a[$1$2$4]=$5$6; next} \
 ${outdir}/hapmap3_mismatch.still
 
 ## 64 still mismatch
+## Sep 5, 24 --->  107 preprocess_raw_data/HapMap3/hapmap3_mismatch.still
 plink2 --bfile ${plink_hapmap3} \
 --exclude ${outdir}/hapmap3_mismatch.still \
 --make-bed  \

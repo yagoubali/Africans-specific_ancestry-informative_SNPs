@@ -1,6 +1,7 @@
 ##### Merge 1KG updated FID with SGDP cleaned data sets
 
 ```bash
+mkdir merged_data
 outdir="merged_data"
 dir_1KG="preprocess_raw_data/1KG"
 dir_SGDP="preprocess_raw_data/SGDP"

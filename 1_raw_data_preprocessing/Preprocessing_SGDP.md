@@ -12,19 +12,22 @@
 ##### 1. Update samples ID in PLINK fam file
 
 ```bash
+SGDP_DIR="SGDP"
 mkdir -p preprocess_raw_data/SGDP
 outdir="preprocess_raw_data/SGDP";
 SGDP='cteam_extended.v4.maf0.1perc'
 ##<old FID>, <old IID>, <new FID>, <new IID>.
 sed -i 's/  */\t/g' SGDP/${SGDP}.fam
 awk -F"\t" 'BEGIN{OFS="\t"} {print $1,$2,$2,$2}' SGDP/${SGDP}.fam > ${outdir}/update.ids
-# 345 samples updated.
+# 345 samples updated.(129 females, 179 males, 37 ambiguous; 345 founders) 
+#34418131 variants loaded from SGDP/cteam_extended.v4.maf0.1perc.bim
+
 plink2  --bfile SGDP/${SGDP}  --make-bed --out ${outdir}/SGDP_updated_ids  --update-ids ${outdir}/update.ids
 ```
 
 ###### 2. Removing SGDP samples that are overlapped with 1KG samples
 
-###### ---> 23 individuals have been removed, remaining 322 samples
+# ---> 23 individuals have been removed, remaining 322 samples
 
 ```bash
 #extract 1KG samples ids
@@ -46,18 +49,20 @@ plink="${outdir}/SGDP_wo1KG_ids" ## Base name of PLINK binary files from step2
 
 cut -f 2 ${plink}.bim | sort | uniq -d  > ${outdir}/duplicates.ids
 # 0 duplicates
-### remove duplicate SNPs --> no need to run th code below
+### remove duplicate SNPs --> no need to run th code below. However, we will do it as an step in the pipeline
 plink2 --bfile ${plink} \
 --exclude  ${outdir}/duplicates.ids  \
 --make-bed \
 --out ${outdir}/SGDP_noDup
+
+rm ${outdir}/SGDP_wo1KG_ids*
 ```
 
 ##### 4. Remove ambiguous variants
 
 ```bash
 outdir="preprocess_raw_data/SGDP";
-plink="${outdir}/SGDP_wo1KG_ids"
+plink="${outdir}/SGDP_noDup"
 
 awk 'BEGIN {OFS="\t"} ($5$6 == "GC" || $5$6 == "CG" \
   || $5$6 == "AT" || $5$6 == "TA") {print $2}' \
@@ -65,10 +70,12 @@ awk 'BEGIN {OFS="\t"} ($5$6 == "GC" || $5$6 == "CG" \
   ${outdir}/SGDP.ac_gt_snps
 
 # Exclude ambiguous SNPs  plink files, i.e, 5291339 ambiguous SNPs
-  plink2 --bfile ${plink} \
+plink2 --bfile ${plink} \
   --exclude ${outdir}/SGDP.ac_gt_snps \
   --make-bed \
   --out ${outdir}/SGDP_wo_ambiguous_snp
+
+rm ${outdir}/SGDP_noDup*
 ```
 
 ##### 5. Update RsIds to match with 1KG
@@ -80,10 +87,25 @@ plink="${outdir}/SGDP_wo_ambiguous_snp";  ## Base name of PLINK binary files fro
 
 awk 'BEGIN{OFS="\t"}{print $1"_"$4,$2}' ${bim_1KG} > ${outdir}/SGDP_update.rsids
 
+### Remove position with multiple RSIDs
+
+cut -f1 ${outdir}/SGDP_update.rsids | sort | uniq -d > ${outdir}/1KG_duplicated.position
+# 47  to exclude 
 plink2  --bfile ${plink} \
+--exclude ${outdir}/1KG_duplicated.position \
+--make-bed \
+--out ${outdir}/SGDP_wo_1KG_duplicated_position
+
+
+
+plink2  --bfile ${outdir}/SGDP_wo_1KG_duplicated_position \
 --update-name ${outdir}/SGDP_update.rsids 2 1 \
 --make-bed \
 --out ${outdir}/SGDP_rsids_updated
+
+rm ${outdir}/SGDP_wo_ambiguous_snp*
+rm ${outdir}/SGDP_wo_1KG_duplicated_position*
+
 ```
 
 ##### 6. SNPs filliping and error corrections, i.e, correction of SNPs position and chromosome errors
@@ -93,7 +115,7 @@ outdir="preprocess_raw_data/SGDP";
 plink_1KG="preprocess_raw_data/1KG/1KG_updatedFID"
 plink_SGDP="${outdir}/SGDP_rsids_updated"
 
-##remove chromosomes errors ----> 0 errors no need to run the code below
+##remove chromosomes errors ----> 0 errors no need to run the code below. However, we will do it as a pipeline step
 awk 'BEGIN {OFS="\t"; print "rsid","chr_1","chr_2"} FNR==NR {a[$2]=$1; next} \
 ($2 in a && a[$2] != $1) {print $2,a[$2],$1 }' \
  ${plink_1KG}.bim ${plink_SGDP}.bim \
@@ -106,6 +128,9 @@ plink2 --bfile ${plink_SGDP} \
 --make-bed  \
 --out ${outdir}/SGDP_cleaned_chr
 
+
+rm ${plink_SGDP}*
+plink_SGDP="${outdir}/SGDP_cleaned_chr"
 ## pos errors ----> 0 errors
 
 awk 'BEGIN {OFS="\t"} FNR==NR {a[$2]=$4; next} \
@@ -116,6 +141,7 @@ ${outdir}/pos.errors
 
 
 ##flip  ----> 97897 rsids to be flipped
+## sep 5, 24 111342 preprocess_raw_data/SGDP/flip.rsids
 awk 'BEGIN {OFS="\t"} FNR==NR {a[$1$2$4]=$5$6; next} \
 ($1$2$4 in a && a[$1$2$4] != $5$6 && a[$1$2$4] != $6$5) {print $2}' \
  ${plink_1KG}.bim ${plink_SGDP}.bim \
@@ -139,6 +165,7 @@ plink_SGDP="${outdir}/SGDP_cleaned_flipped"
 
 
 ### Check for SNPs mismatch after correction ----> 97897
+# Sep 5, 24,   111341
 awk 'BEGIN {OFS="\t"} FNR==NR {a[$1$2$4]=$5$6; next} \
 ($1$2$4 in a && a[$1$2$4] != $5$6 && a[$1$2$4] != $6$5) {print $2}' \
  ${plink_1KG}.bim ${plink_SGDP}.bim  > \
@@ -156,6 +183,8 @@ rm  ${plink_SGDP}*
 
 ```bash
 ### extract final SNPs ----> 18487774 variants remaining after main filters.
+## Sep 5, 24,  18861357 preprocess_raw_data/SGDP/SGDP_final.rsids
+
 outdir="preprocess_raw_data/SGDP";
 plink_SGDP="${outdir}/SGDP_clean"
 cut -f2 ${plink_SGDP}.bim | grep 'rs' > ${outdir}/SGDP_final.rsids

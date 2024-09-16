@@ -1,6 +1,6 @@
 > Directory layout
 
-    projectDir .
+    ProjectDir .
                ├── 1KG
                ├── HapMap3
                ├── SGDP

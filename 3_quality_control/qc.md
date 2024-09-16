@@ -28,7 +28,7 @@ polygon(density(lmiss$F_MISS), col = "slateblue1")
 dev.off()
 ```
 
-## 2. remove misssinig
+## 2. remove missingness
 
 ```bash
 outdir="analysis/qc_merged_data"

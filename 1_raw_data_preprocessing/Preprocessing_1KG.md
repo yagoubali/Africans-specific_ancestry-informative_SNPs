@@ -11,6 +11,7 @@
 ##### 1. Normalize SNPs
 
 ```bash
+
 mkdir -p preprocess_raw_data/1KG
 outdir="preprocess_raw_data/1KG";
 KG_dir="1KG";
@@ -35,6 +36,7 @@ done
 
 ```bash
 #cd project_dir ### the main project folder
+
 outdir="preprocess_raw_data/1KG";
 prefix="ALL.chr";
 suffix="_normalized.vcf.gz";
@@ -56,8 +58,11 @@ done
 ```bash
 #cd project_dir ### the main project folder
 #mkdir -p preprocess_raw_data/1KG
+wget https://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b151_GRCh37p13/VCF/All_20180423.vcf.gz.tbi
+wget https://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b151_GRCh37p13/VCF/All_20180423.vcf.gz
+
 outdir="preprocess_raw_data/1KG";
-bed_dir="miscellaneous/bed";
+#bed_dir="miscellaneous/bed";
 prefix="ALL.chr";
 suffix="_snps.vcf";
 suffix2="_annotated.vcf";
@@ -74,13 +79,17 @@ for chrom in {1..22}; do
 
   echo "Step 3:  Assign and update input VCF files with the correct SNPs rsIDs ...";
 
-  bcftools annotate -c CHROM,FROM,TO,ID -a ${bed_dir}/bed_chr_${chrom}.bed -o ${outdir}/${file_out} \
+  #bcftools annotate -c CHROM,FROM,TO,ID -a ${bed_dir}/bed_chr_${chrom}.bed -o ${outdir}/${file_out} ${outdir}/${file}.gz
+
+   bcftools annotate -c CHROM,FROM,TO,ID -a All_20180423.vcf.gz -o ${outdir}/${file_out} \
   ${outdir}/${file}.gz
 
+
   echo "cleaning the intermediate extracted file"
-   rm   ${outdir}/${file}*
+  #rm   ${outdir}/${file}*
   echo "............................."
 done
+  rm ${outdir}/*snps.vcf*
 ```
 
 #### 4. Convert VCF files to PLINK format
@@ -88,6 +97,8 @@ done
 ```bash
 #cd project_dir ### the main project folder
 #mkdir -p preprocess_raw_data/1KG
+
+
 outdir="preprocess_raw_data/1KG";
 prefix="ALL.chr";
 suffix="_annotated.vcf";
@@ -107,6 +118,9 @@ rm  ${outdir}/*vcf
 ```
 
 ##### 5. Merge per chromosome PLINK files
+#Warning: Variants 'rs3883815' and 'rs1381052652' have the same position.
+#Warning: Variants 'rs587637745' and 'rs1273466016' have the same position.
+#Warning: Variants 'rs1334470708' and 'rs12082723' have the same position.
 
 ```bash
 outdir="preprocess_raw_data/1KG";
@@ -133,11 +147,14 @@ plink   --bfile ${outdir}/ALL.chr10_cleaned \
   rm   ${outdir}/${prefix}*
   echo "............................."
 
+rm  preprocess_raw_data/1KG/ALL.chr*
+
 ```
 
 ##### 6. Remove ambiguous SNPs
 
 ```bash
+#### 11695664 preprocess_raw_data/1KG/1KG.ac_gt_snps
 bash
 outdir="preprocess_raw_data/1KG";
 prefix_plink="1KG"
@@ -147,8 +164,9 @@ awk 'BEGIN {OFS="\t"} ($5$6 == "GC" || $5$6 == "CG" \
    ${outdir}/${prefix_plink}.bim > \
    ${outdir}/${prefix_plink}.ac_gt_snps
 
-  #  Exclude ambiguous SNPs  plink files ---> 11918284 SNPs, i.e, 64604251 variants remaining
-  plink2 --bfile  ${outdir}/${prefix_plink} \
+  # old -->  Exclude ambiguous SNPs  plink files ---> 11918284 SNPs, i.e, 64604251 variants remaining
+  # Sep 6,24 --exclude: 64554313 variants remaining. 64554313 variants remaining after main filters
+plink2 --bfile  ${outdir}/${prefix_plink} \
   --exclude  ${outdir}/${prefix_plink}.ac_gt_snps \
   --make-bed \
   --out ${outdir}/${prefix_plink}_no_ambiguous_snps
@@ -158,7 +176,7 @@ awk 'BEGIN {OFS="\t"} ($5$6 == "GC" || $5$6 == "CG" \
 
 ```bash
 outdir="preprocess_raw_data/1KG";
-prefix_plink="1KG"
+prefix_plink="1KG_no_ambiguous_snps"
 cut -f 2 ${outdir}/${prefix_plink}.bim | sort | uniq -d > ${outdir}/duplicates.ids
 
 ### How to remove duplicate SNPs, No need to run the code below as 0 duplicates
@@ -166,20 +184,24 @@ plink2 --bfile ${outdir}/${prefix_plink} \
 --exclude  ${outdir}/duplicates.ids  \
 --make-bed \
 --out ${outdir}/${prefix_plink}_noDup
+
+rm ${outdir}/${prefix_plink}.{bed,bim,fam}
 ```
 
 ##### 7. Update FID in fam file
 
 ```bash
 outdir="preprocess_raw_data/1KG";
-prefix_plink="1KG"
+prefix_plink="1KG_no_ambiguous_snps_noDup"
 awk 'BEGIN{OFS="\t"; } {print $1,$2,$2,$2}' \
-${outdir}/${prefix_plink}_no_ambiguous_snps.fam > ${outdir}/update.fam
+${outdir}/${prefix_plink}.fam > ${outdir}/update.fam
 
-plink2  --bfile ${outdir}/${prefix_plink}_no_ambiguous_snps \
+plink2  --bfile ${outdir}/${prefix_plink} \
   --make-bed \
   --out  ${outdir}/1KG_updatedFID \
   --update-ids  ${outdir}/update.fam \
   --allow-no-sex
+
+rm ${outdir}/${prefix_plink}*
 
 ```

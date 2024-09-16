@@ -8,6 +8,8 @@ HapMap="preprocess_raw_data/HapMap3/hapmap3_final"
 #extract rs ids from final HapMap3 --> 1247678
 cut -f 2 ${HapMap}.bim > ${outdir}/HapMap_final.rsids
 
+# Sep 5, 24 ---> 18861357 variants loaded from merged_data/1KG_SGDP.bim.
+
 plink2 --bfile ${SGDP_1KG} \
       --extract ${outdir}/HapMap_final.rsids \
       --make-bed  \

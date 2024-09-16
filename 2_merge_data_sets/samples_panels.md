@@ -31,7 +31,7 @@ awk 'BEGIN {OFS="\t"} FNR==NR {a[$1]=$1; next} \
  ${fam_HapMap_final} ${outdir}/HapMap_ALL.panel > ${outdir}/HapMap_panel.merge
 
 ##
- cat ${panel_1KG} >  ${outdir}/Final.panel
- cat  ${outdir}/SGDP_panel.merge >>  ${outdir}/Final.panel
- cat ${outdir}/HapMap_panel.merge >>  ${outdir}/Final.panel
+cat ${panel_1KG} >  ${outdir}/Final.panel
+cat  ${outdir}/SGDP_panel.merge >>  ${outdir}/Final.panel
+cat ${outdir}/HapMap_panel.merge >>  ${outdir}/Final.panel
 ```

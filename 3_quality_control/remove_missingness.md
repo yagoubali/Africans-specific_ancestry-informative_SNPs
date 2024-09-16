@@ -12,4 +12,7 @@ plink2 --bfile ${plink_file} --geno 0.02 --mind 0.02 --make-bed  \
 
 #478 samples removed due to missing genotype data (--mind).
 #--geno: 53 variants removed due to missing genotype data.
+# Sep 5, 24 
+## 478 samples removed due to missing genotype data (--mind)
+### --geno: 87 variants removed due to missing genotype data.
 ```

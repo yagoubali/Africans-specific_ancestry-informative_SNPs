@@ -30,6 +30,7 @@ done
 # Prepare downloaded bed files by:
   #.1. remove header line as it is just an info line
   # 2. Rename chromosomes to numbers by removing chr prefix
+  ## sed might rise an issue if the user is not have a right of writing on the folder
 
 for chrom in {1..22}; do
   file=${download_dir}/${prefix}${chrom}.${suffix2};

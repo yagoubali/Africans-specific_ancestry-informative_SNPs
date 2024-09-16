@@ -3,6 +3,7 @@
 ###### 1. Download Annovar and its databases
 ```bash
 ## To download annovar https://annovar.openbioinformatics.org/en/latest/#reference
+tar -xvzf annovar.latest.tar.gz 
 annovar_path="annovar";
 outdir="analysis/annovar"
 mkdir -p ${outdir}
@@ -37,19 +38,20 @@ perl ${annovar_path}/annotate_variation.pl -buildver hg19 -downdb \
 annovar_path="annovar";
 outdir="analysis/annovar"
 
-snps_overlapped="analysis/AFR/africans_snps_overlapped.vcf"
-snps_specific="analysis/AFR/africans_snps_specific.vcf"
+
+vcf_file_global="analysis/AFR/afr_global_snps.vcf"
+vcf_file_pairwise="analysis/AFR/afr_pairwise_snp.vcf"
 
 perl ${annovar_path}/table_annovar.pl \
-    -vcfinput ${snps_overlapped} ${annovar_path}/humandb/ -buildver hg19 \
-    -out ${outdir}/overlapped.annovar \
+    -vcfinput ${vcf_file_global} ${annovar_path}/humandb/ -buildver hg19 \
+    -out ${outdir}/global.annovar \
     -remove \
     -protocol refGene,knownGene,ensGene,dbnsfp42c,clinvar_20221231,targetScanS \
     -operation g,g,g,f,f,r -nastring .  -polish
 
 perl ${annovar_path}/table_annovar.pl \
-    -vcfinput ${snps_specific} ${annovar_path}/humandb/ -buildver hg19 \
-    -out ${outdir}/africans.annovar \
+    -vcfinput ${vcf_file_pairwise} ${annovar_path}/humandb/ -buildver hg19 \
+    -out ${outdir}/pairwise.annovar \
     -remove \
     -protocol refGene,knownGene,ensGene,dbnsfp42c,clinvar_20221231,targetScanS \
     -operation g,g,g,f,f,r -nastring .  -polish
@@ -61,11 +63,11 @@ perl ${annovar_path}/table_annovar.pl \
 rm(list = ls())
 
 outdir="analysis/annovar/summary/"
-#system("mkdir -p outdir")
-snps_overlapped="analysis/annovar/overlapped.annovar.hg19_multianno.txt"
-snps_africans="analysis/annovar/africans.annovar.hg19_multianno.txt"
-snps_overlapped_db=read.table(snps_overlapped, header=T, sep="\t")
-snps_africans_db=read.table(snps_africans, header=T, sep="\t")
+system("mkdir -p outdir")
+snps_global="analysis/annovar/global.annovar.hg19_multianno.txt"
+snps_pairwise="analysis/annovar/pairwise.annovar.hg19_multianno.txt"
+snps_global_db=read.table(snps_global, header=T, sep="\t")
+snps_pairwise_db=read.table(snps_pairwise, header=T, sep="\t")
 
 annovar_prediction= function (annovar_results, out_name){
        all_db= data.frame()
@@ -97,10 +99,10 @@ annovar_prediction= function (annovar_results, out_name){
   return(all_db)
 
 }
-all_overlapped=paste0(outdir, "all_overlapped.txt")
-all_africans=paste0(outdir, "all_africans.txt")
-overlapped=annovar_prediction(snps_overlapped_db,"_overlapped" )
-africans=annovar_prediction(snps_africans_db,"_africans" )
-write.table(overlapped, file=all_overlapped, row.names=F)
-write.table(africans, file=all_africans, row.names=F)
+all_global=paste0(outdir, "all_global.txt")
+all_pairwise=paste0(outdir, "all_pairwise.txt")
+global=annovar_prediction(snps_global_db,"_global" )
+pairwise=annovar_prediction(snps_pairwise_db,"_pairwise" )
+write.table(global, file=all_global, row.names=F)
+write.table(pairwise, file=all_pairwise, row.names=F)
 ```
